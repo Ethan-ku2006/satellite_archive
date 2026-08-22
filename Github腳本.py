@@ -98,7 +98,7 @@ def build_multilevel_site(data_root="Data"):
         # 第 2 層：儀器分類頁
         inst_cards = "".join([f'<a href="{inst}/index.html" class="card">{get_display_name(inst)}</a>' for inst in instruments])
         bread = f'<a href="../../index.html">首頁</a> / {get_display_name(cat)}'
-        render_page(f"{get_display_name(cat)} - 選擇儀器", bread, f'<div class="grid">{inst_cards}</div>', f"{cat_dir}/index.html")
+        render_page(f"{get_display_name(cat)}", bread, f'<div class="grid">{inst_cards}</div>', f"{cat_dir}/index.html")
 
         for inst in instruments:
             inst_dir = os.path.join(cat_dir, inst)
@@ -107,7 +107,7 @@ def build_multilevel_site(data_root="Data"):
             # 第 3 層：時間分類頁
             year_cards = "".join([f'<a href="{y}/index.html" class="card">{y} 年</a>' for y in sorted(years, reverse=True)])
             bread = f'<a href="../../../index.html">首頁</a> / <a href="../index.html">{get_display_name(cat)}</a> / {get_display_name(inst)}'
-            render_page(f"{get_display_name(inst)} - 選擇年份", bread, f'<div class="grid">{year_cards}</div>', f"{inst_dir}/index.html")
+            render_page(f"{get_display_name(inst)}", bread, f'<div class="grid">{year_cards}</div>', f"{inst_dir}/index.html")
 
             for y in years:
                 year_dir = os.path.join(inst_dir, y)
@@ -116,7 +116,7 @@ def build_multilevel_site(data_root="Data"):
                 # 第 4 層：氣旋系統分類頁
                 cyc_cards = "".join([f'<a href="{c}/index.html" class="card">{get_display_name(c)}</a>' for c in cyclones])
                 bread = f'<a href="../../../../index.html">首頁</a> / <a href="../../index.html">{get_display_name(cat)}</a> / <a href="../index.html">{get_display_name(inst)}</a> / {y}'
-                render_page(f"{y} 年 - 選擇氣旋系統", bread, f'<div class="grid">{cyc_cards}</div>', f"{year_dir}/index.html")
+                render_page(f"{y} 年", bread, f'<div class="grid">{cyc_cards}</div>', f"{year_dir}/index.html")
 
                 for c in cyclones:
                     cyc_dir = os.path.join(year_dir, c)
