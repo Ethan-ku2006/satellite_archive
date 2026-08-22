@@ -45,7 +45,7 @@ NAME_MAP = {
     "SLSTR&AATSR&ATSR":"SLSTR紅外&可見光&偽可見光雲圖",
     "VIRS":"VIRS紅外&可見光&偽可見光雲圖",
     "SeaWiFS":"SeaWiFS可見光雲圖",
-    "MERIS":"MERIS可見光雲圖",
+    "OCLI&MERIS":"OCLI&MERIS可見光雲圖",
     "TRMM PR":"TRMM降雨雷達",
     "GPM DPR":"GPM降雨雷達",
     "FY3 PMR":"FY3降雨雷達",
@@ -72,7 +72,6 @@ def render_page(title, breadcrumb_html, content_html, output_path):
 </body>
 </html>"""
     
-    # 💡 修正：先取得資料夾路徑，如果不為空才建立資料夾
     dir_name = os.path.dirname(output_path)
     if dir_name:  
         os.makedirs(dir_name, exist_ok=True)
@@ -105,7 +104,7 @@ def build_multilevel_site(data_root="Data"):
             years = [d for d in os.listdir(inst_dir) if os.path.isdir(os.path.join(inst_dir, d))]
             
             # 第 3 層：時間分類頁
-            year_cards = "".join([f'<a href="{y}/index.html" class="card">{y} 年</a>' for y in sorted(years, reverse=True)])
+            year_cards = "".join([f'<a href="{y}/index.html" class="card">{y}</a>' for y in sorted(years, reverse=True)])
             bread = f'<a href="../../../index.html">首頁</a> / <a href="../index.html">{get_display_name(cat)}</a> / {get_display_name(inst)}'
             render_page(f"{get_display_name(inst)}", bread, f'<div class="grid">{year_cards}</div>', f"{inst_dir}/index.html")
 
@@ -116,25 +115,38 @@ def build_multilevel_site(data_root="Data"):
                 # 第 4 層：氣旋系統分類頁
                 cyc_cards = "".join([f'<a href="{c}/index.html" class="card">{get_display_name(c)}</a>' for c in cyclones])
                 bread = f'<a href="../../../../index.html">首頁</a> / <a href="../../index.html">{get_display_name(cat)}</a> / <a href="../index.html">{get_display_name(inst)}</a> / {y}'
-                render_page(f"{y} 年", bread, f'<div class="grid">{cyc_cards}</div>', f"{year_dir}/index.html")
+                render_page(f"{y}", bread, f'<div class="grid">{cyc_cards}</div>', f"{year_dir}/index.html")
 
                 for c in cyclones:
                     cyc_dir = os.path.join(year_dir, c)
-                    files = [f for f in os.listdir(cyc_dir) if f.endswith(('.png', '.jpg', '.nc', '.gif'))]
+                    dates = [d for d in os.listdir(cyc_dir) if os.path.isdir(os.path.join(cyc_dir, d))]
                     
-                    # 第 5 層：最終數據/圖片展示頁
-                    img_cards = ""
-                    for f in files:
-                        img_cards += f'''
-                        <div class="img-card">
-                            <a href="{f}" target="_blank"><img src="{f}" alt="{f}"></a>
-                            <p>{f}</p>
-                        </div>'''
-                    
+                    # 第 5 層：日期分類頁
+                    date_cards = "".join([f'<a href="{d_name}/index.html" class="card">{d_name}</a>' for d_name in sorted(dates)])
                     bread = f'<a href="../../../../../index.html">首頁</a> / <a href="../../../index.html">{get_display_name(cat)}</a> / <a href="../../index.html">{get_display_name(inst)}</a> / <a href="../index.html">{y}</a> / {get_display_name(c)}'
-                    render_page(f"氣旋資料：{get_display_name(c)}", bread, f'<div class="gallery">{img_cards}</div>', f"{cyc_dir}/index.html")
+                    render_page(f"{get_display_name(c)}", bread, f'<div class="grid">{date_cards}</div>', f"{cyc_dir}/index.html")
+
+                    for d_name in dates:
+                        date_dir = os.path.join(cyc_dir, d_name)
+                        files = [f for f in os.listdir(date_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.nc', '.gif'))]
+                        
+                        # 第 6 層：最終數據/圖片展示頁
+                        img_cards = ""
+                        for f in files:
+                            img_cards += f'''
+                            <div class="img-card">
+                                <a href="{f}" target="_blank"><img src="{f}" alt="{f}"></a>
+                                <p>{f}</p>
+                            </div>'''
+                        
+                        bread = f'<a href="../../../../../../index.html">首頁</a> / <a href="../../../../index.html">{get_display_name(cat)}</a> / <a href="../../../index.html">{get_display_name(inst)}</a> / <a href="../../index.html">{y}</a> / <a href="../index.html">{get_display_name(c)}</a> / {d_name}'
+                        render_page(f"{d_name}", bread, f'<div class="gallery">{img_cards}</div>', f"{date_dir}/index.html")
 
     print("✅ 多層級靜態網頁已全部生成完畢！")
 
 if __name__ == "__main__":
     build_multilevel_site()
+
+#git add .
+#git commit -m "update"
+#git push
