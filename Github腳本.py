@@ -48,6 +48,7 @@ NAME_MAP = {
     "VIRS":"VIRS",
     "SeaWiFS":"SeaWiFS",
     "OLCI&MERIS":"OLCI&MERIS",
+    "EarthCARE":"EarthCARE",
     "TRMM PR":"TRMM降雨雷達",
     "GPM DPR":"GPM降雨雷達",
     "FY3 PMR":"FY3降雨雷達",
