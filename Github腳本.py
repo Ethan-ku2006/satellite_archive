@@ -24,11 +24,11 @@ STYLE = """
 
 # 名詞對照表（將英文資料夾名轉為中文顯示）
 NAME_MAP = {
-    "Wind Vector":"風場",
-    "Microwave":"微波成像",
-    "Polar Image":"極軌雲圖",
-    "Precipitation Radar":"機載降雨雷達",
-    "Science Product":"實驗性產品",
+    "Wind Vector":"Wind Vector",
+    "Microwave":"Microwave",
+    "Polar Image":"Polar Satellite Imagery",
+    "Precipitation Radar":"Precipitation Radar",
+    "Science Product":"Science Product",
     "ASCAT":"ASCAT",
     "QuikSCAT":"QuikSCAT",
     "ERS-1&2":"ERS-1&2",
@@ -50,10 +50,10 @@ NAME_MAP = {
     "SeaWiFS":"SeaWiFS",
     "OLCI&MERIS":"OLCI&MERIS",
     "EarthCARE":"EarthCARE",
-    "TRMM PR":"TRMM降雨雷達",
-    "GPM DPR":"GPM降雨雷達",
-    "FY3 PMR":"FY3降雨雷達",
-    "R34 Measurement":"風場R34測量",
+    "TRMM PR":"TRMM-PR",
+    "GPM DPR":"GPM-DPR",
+    "FY3 PMR":"FY3G-PMR",
+    "R34 Measurement":"R34 Measurement",
 }
 
 def get_display_name(name):
@@ -93,7 +93,7 @@ def build_multilevel_site(data_root="Data"):
     # 第 1 層：首頁 (資料類別)
     categories = [d for d in os.listdir(data_root) if os.path.isdir(os.path.join(data_root, d))]
     cat_cards = "".join([f'<a href="{data_root}/{cat}/index.html" class="card">{get_display_name(cat)}</a>' for cat in categories])
-    render_page("衛星氣象資料庫 @Ethan_ku", "首頁", f'<div class="grid">{cat_cards}</div>', "index.html")
+    render_page("Satellite Imagery Archive @Ethan_ku", "Main", f'<div class="grid">{cat_cards}</div>', "index.html")
 
     for cat in categories:
         cat_dir = os.path.join(data_root, cat)
@@ -101,7 +101,7 @@ def build_multilevel_site(data_root="Data"):
         
         # 第 2 層：儀器分類頁
         inst_cards = "".join([f'<a href="{inst}/index.html" class="card">{get_display_name(inst)}</a>' for inst in instruments])
-        bread = f'<a href="../../index.html">首頁</a> / {get_display_name(cat)}'
+        bread = f'<a href="../../index.html">Main</a> / {get_display_name(cat)}'
         render_page(f"{get_display_name(cat)}", bread, f'<div class="grid">{inst_cards}</div>', f"{cat_dir}/index.html")
 
         for inst in instruments:
@@ -110,7 +110,7 @@ def build_multilevel_site(data_root="Data"):
             
             # 第 3 層：時間分類頁
             year_cards = "".join([f'<a href="{y}/index.html" class="card">{y}</a>' for y in sorted(years, reverse=True)])
-            bread = f'<a href="../../../index.html">首頁</a> / <a href="../index.html">{get_display_name(cat)}</a> / {get_display_name(inst)}'
+            bread = f'<a href="../../../index.html">Main</a> / <a href="../index.html">{get_display_name(cat)}</a> / {get_display_name(inst)}'
             render_page(f"{get_display_name(inst)}", bread, f'<div class="grid">{year_cards}</div>', f"{inst_dir}/index.html")
 
             for y in years:
@@ -119,7 +119,7 @@ def build_multilevel_site(data_root="Data"):
                 
                 # 第 4 層：氣旋系統分類頁
                 cyc_cards = "".join([f'<a href="{c}/index.html" class="card">{get_display_name(c)}</a>' for c in cyclones])
-                bread = f'<a href="../../../../index.html">首頁</a> / <a href="../../index.html">{get_display_name(cat)}</a> / <a href="../index.html">{get_display_name(inst)}</a> / {y}'
+                bread = f'<a href="../../../../index.html">Main</a> / <a href="../../index.html">{get_display_name(cat)}</a> / <a href="../index.html">{get_display_name(inst)}</a> / {y}'
                 render_page(f"{y}", bread, f'<div class="grid">{cyc_cards}</div>', f"{year_dir}/index.html")
 
                 for c in cyclones:
@@ -128,7 +128,7 @@ def build_multilevel_site(data_root="Data"):
                     
                     # 第 5 層：日期分類頁
                     date_cards = "".join([f'<a href="{d_name}/index.html" class="card">{d_name}</a>' for d_name in sorted(dates)])
-                    bread = f'<a href="../../../../../index.html">首頁</a> / <a href="../../../index.html">{get_display_name(cat)}</a> / <a href="../../index.html">{get_display_name(inst)}</a> / <a href="../index.html">{y}</a> / {get_display_name(c)}'
+                    bread = f'<a href="../../../../../index.html">Main</a> / <a href="../../../index.html">{get_display_name(cat)}</a> / <a href="../../index.html">{get_display_name(inst)}</a> / <a href="../index.html">{y}</a> / {get_display_name(c)}'
                     render_page(f"{get_display_name(c)}", bread, f'<div class="grid">{date_cards}</div>', f"{cyc_dir}/index.html")
 
                     for d_name in dates:
@@ -144,7 +144,7 @@ def build_multilevel_site(data_root="Data"):
                                 <p>{f}</p>
                             </div>'''
                         
-                        bread = f'<a href="../../../../../../index.html">首頁</a> / <a href="../../../../index.html">{get_display_name(cat)}</a> / <a href="../../../index.html">{get_display_name(inst)}</a> / <a href="../../index.html">{y}</a> / <a href="../index.html">{get_display_name(c)}</a> / {d_name}'
+                        bread = f'<a href="../../../../../../index.html">Main</a> / <a href="../../../../index.html">{get_display_name(cat)}</a> / <a href="../../../index.html">{get_display_name(inst)}</a> / <a href="../../index.html">{y}</a> / <a href="../index.html">{get_display_name(c)}</a> / {d_name}'
                         render_page(f"{d_name}", bread, f'<div class="gallery">{img_cards}</div>', f"{date_dir}/index.html")
 
     print("✅ 多層級靜態網頁已全部生成完畢！")
