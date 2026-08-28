@@ -50,6 +50,7 @@ NAME_MAP = {
     "SeaWiFS":"SeaWiFS",
     "OLCI&MERIS":"OLCI&MERIS",
     "EarthCARE":"EarthCARE",
+    "METimage":"METimage",
     "TRMM PR":"TRMM-PR",
     "GPM DPR":"GPM-DPR",
     "FY3 PMR":"FY3G-PMR",
