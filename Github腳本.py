@@ -36,6 +36,7 @@ NAME_MAP = {
     "OSCAT":"OSCAT",
     "SMAP":"SMAP",
     "AMSR2":"AMSR2",
+    "WindSat":"WindSat",
     "AMSR":"AMSR",
     "SSMI&SSMIS":"SSMI&SSMIS",
     "TMI&GMI":"TMI&GMI",
