@@ -34,6 +34,7 @@ NAME_MAP = {
     "ERS-1&2":"ERS-1&2",
     "WindRAD":"WindRAD",
     "OSCAT":"OSCAT",
+    "RapidSCAT":"RapidSCAT",
     "SMAP":"SMAP",
     "AMSR2":"AMSR2",
     "WindSat":"WindSat",
